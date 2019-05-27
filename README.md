@@ -1,1 +1,0 @@
-Fajri, Rifqi, Putra, dan Roki
