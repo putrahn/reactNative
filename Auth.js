@@ -23,4 +23,12 @@ const isSignedIn = async()=>{
     })
 }
 
-export{signIn, signOut, isSignedIn};
+const getUserData = async ()=>{
+    const user = await AsyncStorage.getItem(USERNAME);
+    return new Promise((resolve, reject)=>{
+        resolve(user);
+    });
+}
+
+
+export{signIn, signOut, isSignedIn, getUserData};

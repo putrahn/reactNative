@@ -18,21 +18,30 @@ import customerReducer from './redux/customerReducer';
 import {createStackNavigator,
   createAppContainer,
   createDrawerNavigator,
-  createSwitchNavigator } from "react-navigation";
+  createSwitchNavigator,
+  createBottomTabNavigator,
+  SwitchNavigator} from "react-navigation";
 import { createMaterialBottomTabNavigator } from 'react-navigation-material-bottom-tabs';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
 import Login from './component/Login';
 import Register from './component/Register';
 
-
 import Main from './component/transaction/Main';
-import TransactionView from './component/transaction/TransactionHome';
 import TransactionTopUp from './component/transaction/TransactionTopUp';
 import TransactionTransfer from './component/transaction/TransactionTransfer';
-import TransactionWithraw from './component/transaction/TransactionWithdraw';
+import TransactionList from './component/transaction/TransactionList';
 
-import TradingView from './component/trading/TradingView'
+import AccountList from './component/account/AccountList';
+import AccountAdd from './component/account/AccountAdd';
+import DetailAccount from './component/account/DetailAccount';
+
+import WalletRegister from './component/wallet/WalletRegister';
+import WalletCreate from './component/wallet/WalletCreate';
+import WalletMain from './component/wallet/WalletMain';
+import WalletView from './component/wallet/WalletView';
+
+import TradingView from './component/trading/TradingView';
 
 const tabBarIcon = name => ({ tintColor }) => (
   <MaterialIcons
@@ -43,17 +52,7 @@ const tabBarIcon = name => ({ tintColor }) => (
   />
 );
 
-const RootStack = createStackNavigator({
-  Login :{screen: Login},
-  Register : {screen : Register},
-  Main : {screen: Main}
-});
-
-const LoginApp = createStackNavigator({
-  Login : {screen : Login}
-})
-
-const TabBottom = createMaterialBottomTabNavigator({
+const TabBottom = createBottomTabNavigator({
   Main:{
     screen : Main,
     navigationOptions: {
@@ -68,25 +67,52 @@ const TabBottom = createMaterialBottomTabNavigator({
   }
 });
 
+const StackTransaction = createStackNavigator({
+  Main : {screen: TabBottom},
+  transfer:{screen: TransactionTransfer},
+  topup: {screen: TransactionTopUp},
+  list:{screen: TransactionList},
+  listAcc : {screen: AccountList},
+  addAcc : {screen: AccountAdd},
+  DetailAccount : {screen: DetailAccount},
+  walletcreate : {screen: WalletCreate},
+  walletregis : {screen: WalletRegister},
+  walletmain : {screen: WalletView}
+});
+
+const StackAccount = createStackNavigator({
+  Main : {screen: TabBottom},
+  listAcc : {screen: AccountList},
+  addAcc : {screen: AccountAdd}
+  
+})
+
+const drawerNavigator = createDrawerNavigator({
+  Home:{screen:StackTransaction}
+})
+
 const RootSwitch = createSwitchNavigator({
   Login :{screen: Login},
   Register : {screen : Register},
-  Main : {screen: Main}
+  Main : {screen: drawerNavigator}
 })
+
+const AppContainer=createAppContainer(RootSwitch)
 
 // const AppContainer = createAppContainer(RootSwitch);
 
-const AppContainer  = createAppContainer(
-  createSwitchNavigator(
-  {
-    Auth: RootStack,
-    Dashboard: TabBottom,
-  },
-  {
-    initialRouteName: 'Auth',
-  }
-  )
-);
+
+// const AppContainer  = createAppContainer(
+//   createSwitchNavigator(
+//   {
+//     Auth: RootSwitch,
+//     Dashboard: TabBottom,
+//   },
+//   {
+//     initialRouteName: 'Auth',
+//   }
+//   )
+// );
 
 export default AppContainer 
 // extends Component{

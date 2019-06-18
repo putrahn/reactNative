@@ -7,7 +7,8 @@
  */
 
 import React, { Component } from 'react';
-import { StyleSheet, Text, TextInput, View, Button, Image, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, TextInput, View, Image, TouchableOpacity, Alert} from 'react-native';
+import { Container, Header, Content, Button} from 'native-base';
 import {signIn} from '../Auth';
 import Axios from 'axios';
 
@@ -27,55 +28,38 @@ export default class Login extends Component<Props> {
     static navigationOptions = { header: null }
 
     _loginApi = async() => {
+      if(
+        !this.state.stateEmail&&
+        !this.state.statePassword){
+          alert(
+              'Please deh'
+          );
+      } else {
     const data = {
       email: this.state.stateEmail,
       password: this.state.statePassword
     }
-    this.props.navigation.navigate("Dashboard")
-    // Axios.post("http://192.168.1.8:8090/customers/login", data)
-    // .then(async(result) => {
-    //     const response = result.data
-    //     console.log(data);
-    //     console.log(JSON.stringify(response));
-    //     if(response.response_code == "20") {
-    //         console.log("dapet");
-    //       const login = await signIn(this.state.stateUsername, this.state.statePassword);
-    //       if(login) {
-    //         this.props.navigation.navigate('Main');
-    //       } else {
-    //         alert("Username or password is invalid");            
-    //       }
-    //     } else {
-    //       Alert.alert(response.response_message);
-    //     }
-    //   }).catch(error => {
-    //     alert(error);
-    //   })
-
-    // fetch("http://192.168.0.0:8080/customer/login", {
-    //   method: "POST",
-    //   body: JSON.stringify(data),
-    //   headers: {
-    //     'Content-Type':'application/json',
-    //     'Accept':'application/json'
-    //   }
-    // }).
-    //   then((result => result.json())).
-    //   then(async(response) => {
-    //     console.log(JSON.stringify(response));
-    //     if(response.responseCode == '01') {
-    //       const login = await signIn(this.state.username, this.state.password)
-    //       if(login) {
-    //         this.props.navigation.navigate('App');
-    //       } else {
-    //         alert("Username or password is invalid");            
-    //       }
-    //     } else {
-    //       alert(response.responseMessage);
-    //     }
-    //   }).catch(error => {
-    //     alert(error);
-    //   })
+    // this.props.navigation.navigate("Main")
+    Axios.post("http://192.168.43.59:8090/customer/login", data)
+    .then(async(result) => {
+        const response = result.data
+        console.log(data);
+        console.log(JSON.stringify(response));
+        if(response.status == "20") {
+            console.log("dapet");
+          const login = await signIn(response.data.customerNumber, this.state.statePassword);
+          if(login) {
+            this.props.navigation.navigate('Main');
+          } else {
+            alert("Username or password is invalid");            
+          }
+        } else {
+          Alert.alert(response.message);
+        }
+      }).catch(error => {
+        alert(error);
+      })
+    }
   }
     render() {
         return (
@@ -86,8 +70,8 @@ export default class Login extends Component<Props> {
             <TextInput style={styles.inputs}
                 placeholder="Email"
                 underlineColorAndroid='transparent'
-                onChangeText={(user) => this.setState({ stateEmail: user })} value={this.state.stateEmail} />
-            <Image style={styles.inputIcon} source={{uri: 'https://img.icons8.com/pastel-glyph/64/000000/secured-letter.png'}}/>
+                onChangeText={(email) => this.setState({ stateEmail: email })} value={this.state.stateEmail} />
+            <Image style={styles.inputIcon} source={{uri: 'https://img.icons8.com/ios/50/000000/new-post.png'}}/>
           </View>
 
           <View style={styles.inputContainer}>
@@ -95,17 +79,19 @@ export default class Login extends Component<Props> {
                 placeholder="Password"
                 secureTextEntry={true}
                 underlineColorAndroid='transparent'
-                onChangeText={(pass) => this.setState({statePassword : pass})} value={this.state.statePassword}/>
+                onChangeText={(password) => this.setState({statePassword : password})} value={this.state.statePassword}/>
             <Image style={styles.inputIcon} source={{uri: 'https://img.icons8.com/color/40/000000/password.png'}}/>
           </View>
 
           <View>
-          <Button
+          <Button block success
           style={styles.btnByRegister}
             onPress={this._loginApi}
-            title="Login"
-          />
-          </View>
+          >
+            <Text>Login</Text>
+          </Button>
+          
+        </View>
 
         <View>
         <Text style={styles.textByRegister}>If You Dont Have an Account, Please Sign Up</Text>
@@ -178,35 +164,12 @@ const styles = StyleSheet.create({
     marginRight:15,
     justifyContent: 'center'
   },
-  buttonContainer: {
-    height:45,
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginBottom:20,
-    width:300,
-    borderRadius:30,
-    backgroundColor:'transparent'
-  },
   btnByRegister: {
-    width:300,
-    backgroundColor:'#1c313a',
+    width:180,
+    backgroundColor:'#3dd130',
      borderRadius: 25,
       marginVertical: 10,
       paddingVertical: 13
-  },
-  loginButton: {
-    backgroundColor: "#00b5ec",
-
-    shadowColor: "#808080",
-    shadowOffset: {
-      width: 0,
-      height: 9,
-    },
-    shadowOpacity: 0.50,
-    shadowRadius: 12.35,
-
-    elevation: 19,
   },
   loginText: {
     color: 'white',

@@ -7,7 +7,16 @@
  */
 
 import React, { Component } from 'react';
-import { Platform, StyleSheet, Text, TextInput, View, Alert, Image, Button } from 'react-native';
+import { Platform,
+   StyleSheet,
+   TextInput, 
+   View, 
+   Alert, 
+   Image,
+   Picker,
+  ScrollView,
+  TouchableOpacity } from 'react-native';
+import {Button, Text} from 'native-base';
 import Axios from 'axios';
 import DatePicker from 'react-native-datepicker';
 
@@ -22,46 +31,59 @@ export default class Register extends Component<Props> {
             stateNIK:'',
             stateMom:'',
             stateBirthdate:'',
+            stateGender:''
         };
     }
     static navigationOptions = {
-        title: 'LOGIN',
+        title: 'Register',
+        header: ''
     };
 
-    static navigationOptions = { header: null }
-
     _registerApi= async() => {
+
+      if(
+        !this.state.stateEmail &&
+        !this.state.statePassword &&
+        !this.state.stateFirstname &&
+        !this.state.stateLastname &&
+        !this.state.stateNIK &&
+        !this.state.stateMom &&
+        !this.state.stateBirthdate &&
+        !this.state.stateGender ){
+            alert(
+                'Please fill form correctly'
+            );
+        } else {
+
     const data = {
       nik : this.state.stateNIK,
       email: this.state.stateEmail,
       password: this.state.statePassword,
-      firstname : this.state.stateFirstname,
-      lastname : this.state.stateLastname,
-      mom : this.state.stateMom,
-      birth_date : this.state.stateBirthdate
+      firstName : this.state.stateFirstname,
+      lastName : this.state.stateLastname,
+      motherName : this.state.stateMom,
+      birthDate : this.state.stateBirthdate,
+      gender : this.state.stateGender
     } 
-    Axios.post("http://192.168.1.8:8090/customers/login", data)
+    Axios.post("http://192.168.43.59:8090/customer", data)
     .then(async(result) => {
         const response = result.data
-        console.log(data);
-        console.log(JSON.stringify(response));
-        if(response.response_code == "01") {
+        if(response.response_code == "20") {
+            this.props.navigation.navigate("Login");
             console.log("dapet");
-          const login = await signIn(this.state.stateUsername, this.state.statePassword);
-          if(login) {
-            this.props.navigation.navigate('Login');
-          } else {
-            alert("Username or password is invalid");            
-          }
         } else {
-          Alert.alert(response.response_message);
+          Alert.alert(response.message);
+          // this.props.navigation.navigate('Login');
         }
       }).catch(error => {
         alert(error);
       })
   }
+}
     render() {
         return (
+          
+          <ScrollView>
           <View style={styles.container}>
 
           <Text style={styles.textByUp}>Sign Up</Text>
@@ -70,21 +92,39 @@ export default class Register extends Component<Props> {
             <TextInput style={styles.inputs}
                 placeholder="NIK"
                 underlineColorAndroid='transparent'
-                onChangeText={(nik) => this.setState({ stateNIK: nik })} value={this.state.stateNIK} />
+                onChangeText={(nik) => this.setState({ stateNIK: nik })} 
+                value={this.state.stateNIK}
+                keyboardType='numeric' />
           </View>
 
           <View style={styles.inputContainer}>
             <TextInput style={styles.inputs}
                 placeholder="First Name"
                 underlineColorAndroid='transparent'
-                onChangeText={(firstname) => this.setState({ stateFirstname: firstname })} value={this.state.stateFirstname} />
+                onChangeText={(firstName) => this.setState({ stateFirstname: firstName })} 
+                value={this.state.stateFirstname} />
           </View>
 
           <View style={styles.inputContainer}>
             <TextInput style={styles.inputs}
                 placeholder="Last Name"
                 underlineColorAndroid='transparent'
-                onChangeText={(lastname) => this.setState({ stateLastname: lastname })} value={this.state.stateLastname} />
+                onChangeText={(lastName) => this.setState({ stateLastname: lastName })} value={this.state.stateLastname} />
+          </View>
+
+          <View>
+          <Text>Gender</Text>
+          <Picker
+            selectedValue={this.state.stateGender}
+            style={styles.inputGender}
+            onValueChange={(itemValue, itemIndex) =>
+            this.setState({stateGender : itemValue})
+          }
+          >
+          <Picker.Item label="Select" />
+          <Picker.Item label="Male" value="male" />
+          <Picker.Item label="Female" value="female" />
+        </Picker>
           </View>
 
           <View style={styles.inputContainer}>
@@ -95,7 +135,7 @@ export default class Register extends Component<Props> {
                     
                         format="YYYY-MM-DD"
                         minDate="1910-01-01"
-                        maxDate="2040-01-01"
+                        maxDate="2020-01-01"
                         confirmBtnText="Confirm"
                         cancelBtnText="Cancel"
                         showIcon={false}
@@ -111,8 +151,6 @@ export default class Register extends Component<Props> {
                                 marginRight: 68,
                                 borderWidth: 0,                      
                             },
-                          
-                            // ... You can check the source to find the other keys.
                         }}
                         onDateChange={(birth) => this.setState({ stateBirthdate: birth }) }
                  
@@ -121,9 +159,9 @@ export default class Register extends Component<Props> {
 
           <View style={styles.inputContainer}>
           <TextInput style={styles.inputs}
-              placeholder="Mother's Maiden Name"
+              placeholder="Mother Name"
               underlineColorAndroid='transparent'
-              onChangeText={(mom) => this.setState({ stateMom: mom })} value={this.state.stateMom} />
+              onChangeText={(motherName) => this.setState({ stateMom: motherName })} value={this.state.stateMom} />
         </View>
 
           <View style={styles.inputContainer}>
@@ -142,12 +180,22 @@ export default class Register extends Component<Props> {
           </View>
 
           <View>
-          <Button
-            onPress={() =>  this.props.navigation.navigate("Login")}
-            title="Register"
-          />
+          <Button block success
+          style={styles.btnByRegister}
+            onPress={this._registerApi}
+          >
+            <Text style={{fontSize: 16, fontWeight:'bold', color: 'black'}}>Register</Text>
+          </Button>
+          
           </View>
+
+          <View>
+        <Text style={styles.textByRegister}>Already Have an Account, Please </Text>
+				 <TouchableOpacity onPress={() =>  this.props.navigation.navigate("Login")}><Text style={styles.textByRegister}> Login</Text></TouchableOpacity>
+				</View>
+  
         </View>
+        </ScrollView>
       );
     }
     
@@ -177,18 +225,28 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#dee3ea',
+    backgroundColor: '#ffffff',
   },
   inputContainer: {
     borderBottomColor: '#F5FCFF',
-    backgroundColor: '#FFFFFF',
-    borderRadius:30,
+    backgroundColor: '#dee3ea',
     borderBottomWidth: 1,
     width:300,
     height:45,
     marginBottom:20,
     flexDirection: 'row',
     alignItems:'center',
+  },
+  inputGender: {
+    borderBottomColor: '#F5FCFF',
+    backgroundColor: '#dee3ea',
+    borderRadius:30,
+    borderBottomWidth: 1,
+    height:45,
+    width:300,
+    marginBottom:20,
+    flexDirection: 'row',
+    alignItems:'flex-start',
 
     shadowColor: "#808080",
     shadowOffset: {
@@ -217,19 +275,16 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
-    marginBottom:20,
     width:300,
     borderRadius:30,
     backgroundColor:'transparent'
   },
   btnByRegister: {
-    height:15,
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginVertical:20,
-    width:300,
-    backgroundColor:'transparent'
+    width:180,
+    backgroundColor:'#3dd130',
+     borderRadius: 25,
+      marginVertical: 10,
+      paddingVertical: 13
   },
   loginButton: {
     backgroundColor: "#00b5ec",
@@ -271,5 +326,14 @@ const styles = StyleSheet.create({
     textShadowColor: 'rgba(0, 0, 0, 0)',
     textShadowOffset: {width: -1, height: 1},
     textShadowRadius: 10
-  }
+  },
+  textByRegister:{
+    color:"#011838",
+    fontWeight:'bold',
+    textAlign:'center',
+
+    textShadowColor: 'rgba(0, 0, 0, 0)',
+    textShadowOffset: {width: -1, height: 1},
+    textShadowRadius: 10
+  },
 }); 
