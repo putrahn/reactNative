@@ -34,7 +34,7 @@ _transfer = async() => {
       amount : this.state.stateAmount,
       desc : this.state.stateDescription
     }
-    Axios.post("http://192.168.43.59:8090/transaction/transfer", data)
+    Axios.post("http://192.168.1.38:8090/transaction/transfer", data)
     .then(async(result) => {
       const response = result.data
       console.log(data);

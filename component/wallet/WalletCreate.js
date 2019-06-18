@@ -28,7 +28,7 @@ export default class WalletCreate extends Component <Props>{
 
          
         }
-        Axios.post("http://192.168.43.59:8090/wallet", data)
+        Axios.post("http://192.168.1.38:8090/wallet", data)
         .then(async(result) => {
           const response = result.data
           console.log(data);

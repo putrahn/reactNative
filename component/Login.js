@@ -32,7 +32,7 @@ export default class Login extends Component<Props> {
         !this.state.stateEmail&&
         !this.state.statePassword){
           alert(
-              'Please deh'
+              'Fill Form Correctly'
           );
       } else {
     const data = {
@@ -40,7 +40,7 @@ export default class Login extends Component<Props> {
       password: this.state.statePassword
     }
     // this.props.navigation.navigate("Main")
-    Axios.post("http://192.168.43.59:8090/customer/login", data)
+    Axios.post("http://192.168.1.38:8090/customer/login", data)
     .then(async(result) => {
         const response = result.data
         console.log(data);
@@ -88,7 +88,7 @@ export default class Login extends Component<Props> {
           style={styles.btnByRegister}
             onPress={this._loginApi}
           >
-            <Text>Login</Text>
+            <Text style={{fontSize: 16, fontWeight:'bold', color: 'black'}}>Login</Text>
           </Button>
           
         </View>

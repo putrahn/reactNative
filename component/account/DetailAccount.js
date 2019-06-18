@@ -45,7 +45,7 @@ export default class DetailAccount extends React.Component {
                             <Text>Open Date</Text>
                         </ListItem>
                         <ListItem>
-                            <Text>{this.props.navigation.state.params.openDate}</Text>
+                            <Text>{this.props.navigation.state.params.openDate.slice(0,10)}</Text>
                         </ListItem>
 
 

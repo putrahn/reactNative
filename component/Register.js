@@ -65,12 +65,11 @@ export default class Register extends Component<Props> {
       birthDate : this.state.stateBirthdate,
       gender : this.state.stateGender
     } 
-    Axios.post("http://192.168.43.59:8090/customer", data)
+    Axios.post("http://192.168.1.38:8090/customer", data)
     .then(async(result) => {
         const response = result.data
         if(response.response_code == "20") {
-            this.props.navigation.navigate("Login");
-            console.log("dapet");
+          this.props.navigation.navigate("Login")
         } else {
           Alert.alert(response.message);
           // this.props.navigation.navigate('Login');

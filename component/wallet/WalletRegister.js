@@ -25,7 +25,7 @@ export default class WalletRegister extends Component <Props>{
 async componentDidMount() {
   const cif = await getUserData();
   console.log("cif "+cif)
-  Axios.get(`http://192.168.43.59:8090/accounts/${cif}`)
+  Axios.get(`http://192.168.1.38:8090/accounts/${cif}`)
   .then((results) => {
     const response = results.data
     this.setState({data:response.data})
@@ -34,7 +34,7 @@ async componentDidMount() {
     alert(error);
   })
 
-  Axios.get(`http://192.168.43.59:8090/customer/${cif}/wallets`)
+  Axios.get(`http://192.168.1.38:8090/customer/${cif}/wallets`)
   .then((results) => {
     const response = results.data
     this.setState({walletid:response.data})
@@ -53,7 +53,7 @@ _registerWallet = async() => {
       accountNumber:this.state.stateName}
   }
   console.log(data);
-  Axios.post("http://192.168.43.59:8090/walletaccount", data)
+  Axios.post("http://192.168.1.38:8090/walletaccount", data)
   .then(async(result) => {
     const response = result.data
     console.log(data);

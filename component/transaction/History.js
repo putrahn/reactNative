@@ -40,7 +40,7 @@ export default class History extends Component <Props>{
 async componentDidMount() {
   const cif = await getUserData();
   console.log("cif "+cif)
-  axios.get(`http://192.168.43.59:8090/accounts/${cif}`)
+  axios.get(`http://192.168.1.38:8090/accounts/${cif}`)
   .then((results) => {
     // alert(JSON.stringify(results.data.response_code))
     const response = results.data
@@ -82,12 +82,12 @@ async componentDidMount() {
             <ListItem>
             <Left>
             <View style={{flex: 1, flexDirection: "column"}}>
-                        <Text>{this.props.data.date}</Text>
-                        <Text> {this.props.data.transactionType.description}</Text>
-                                <Text>{this.props.data.accountNumberCredit}</Text>
-                                <Text>{this.props.data.accountNumberDebit}</Text>
+                      <Text>Date : {this.props.data.date.slice(0,10)}</Text>
+                        <Text>Description : {this.props.data.transactionType.description}</Text>
+                                <Text>Account Credit : {this.props.data.accountNumberCredit}</Text>
+                                <Text>Accout Debit : {this.props.data.accountNumberDebit}</Text>
                            
-                            <Text note >Rp {this.props.data.amount}</Text> 
+                            <Text>Amount : Rp.{this.props.data.amount}</Text> 
                             </View>  
                             </Left>   
             </ListItem>

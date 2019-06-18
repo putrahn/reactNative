@@ -40,7 +40,7 @@ export default class TransactionList extends Component <Props>{
 async componentDidMount() {
   const accountNumber = this.props.navigation.state.params;
   console.log(accountNumber)
-  axios.get(`http://192.168.43.59:8090/transactions/${accountNumber}`)
+  axios.get(`http://192.168.1.38:8090/transactions/${accountNumber}`)
   .then((results) => {
     const response = results.data
     this.setState({data:response.data})

@@ -39,7 +39,7 @@ export default class WalletView extends Component <Props>{
 async componentDidMount() {
     const cif = await getUserData();
     console.log("cif "+cif)
-    Axios.get(`http://192.168.43.59:8090/customer/${cif}/wallets`)
+    Axios.get(`http://192.168.1.38:8090/customer/${cif}/wallets`)
     .then((results) => {
       const response = results.data
       this.setState({data:response.data})
@@ -54,12 +54,11 @@ async componentDidMount() {
     let data = this.state.data;
     for(let i = 0; i < data.length; i++){
       dataArray.push({
-        // title: data[i].customerNumber.firstName,
-        title:"Your Account",
+        title: "Wallet = "+data[i].description,
         content: 
           "Wallet ID : "+data[i].walletId
           +"\nWallet Name : "+data[i].description
-          +"\nCreated Date : "+data[i].createdDate
+          +"\nCreated Date : "+data[i].createdDate.slice(0,10)
         },)
     }
     return (

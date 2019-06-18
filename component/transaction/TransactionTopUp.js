@@ -35,7 +35,7 @@ _topUp = async() => {
       amount : this.state.stateAmount,
       description : this.state.stateDescription
     }
-    Axios.post("http://192.168.43.59:8090/transaction/topup", data)
+    Axios.post("http://192.168.1.38:8090/transaction/topup", data)
     .then(async(result) => {
       const response = result.data
       console.log(data);
@@ -57,12 +57,7 @@ _topUp = async() => {
             <Card style={{
               backgroundColor: '#F5FCFF'}}>
                     <Card.Content>
-                      <TextInput autoFocus={true} mode='outlined' 
-                      value={this.state.stateAccountNumber} 
-                      onChangeText={(accountNumberDebit) => this.setState({ stateAccountNumber: accountNumberDebit })} 
-                      label='Account Number' />
-                      <Divider />
-
+                      
                       <TextInput autoFocus={true} mode='outlined' 
                       value={this.state.stateDestination} 
                       onChangeText={(accountNumberCredit) => this.setState({ stateDestination: accountNumberCredit })}

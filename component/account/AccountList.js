@@ -41,7 +41,7 @@ export default class AccountList extends Component <Props>{
 async componentDidMount() {
   const cif = await getUserData();
   console.log("cif "+cif)
-  axios.get(`http://192.168.43.59:8090/accounts/${cif}`)
+  axios.get(`http://192.168.1.38:8090/accounts/${cif}`)
   .then((results) => {
     // alert(JSON.stringify(results.data.response_code))
     const response = results.data
