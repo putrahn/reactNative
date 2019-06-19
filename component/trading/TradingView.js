@@ -4,7 +4,6 @@ import { List, Checkbox, Appbar } from 'react-native-paper';
 import { Container, Header,Title, Content,Button, Card, CardItem, Text, Body } from 'native-base';
 import PureChart from 'react-native-pure-chart';
 import Axios from 'axios';
-import LineCharts from "react-native-pure-chart/examples/pure-chart/components/line-chart";
 
 export default class TradingView extends Component <Props>{
   constructor() {
@@ -30,12 +29,17 @@ export default class TradingView extends Component <Props>{
   }
 
   _dataBuy(){
+    console.log('fghjk');
     let newDate = '';
     let dataBuy = [];
+    console.log(this.state.data)
     for(let i =0; i < this.state.data.length; i++){
       newDate = this.state.data[i].date.slice(0,10);
       dataBuy.push({x : newDate, y: this.state.data[i].buy })
+      console.log(`databuy[${i}] ${JSON.stringify(dataBuy[i])}`)
     }
+    console.log('hasil');
+    console.log(JSON.stringify(dataBuy));
     return dataBuy;
   }
 
@@ -49,10 +53,14 @@ export default class TradingView extends Component <Props>{
     return dataSell;
   }
 render() {
+
+  console.log()
   console.log(this._dataBuy());
   console.log(this._dataSell());
 
-  let sample =
+
+  
+  let sampleData =
         [
           {
             seriesName: 'Buy',
@@ -66,23 +74,30 @@ render() {
           }
         ]
 
-console.log(sample);
-
-    return (
-      <View>
-      <Appbar.Header>
-          <Appbar.Content title="Trading" 
-          subtitle=" "/>
-      </Appbar.Header>
-
-      <Button block success
-          style={styles.btnByRegister}
-          onPress={()=>{this.props.navigation.navigate('tradingtrans')}}
-          >
-            <Text>Trading Transaction</Text>
-          </Button>
-      </View>
-    )
+        if(this.state.data.length > 0){
+          return (
+            <View>
+            <Appbar.Header>
+                <Appbar.Content title="Trading" 
+                subtitle=" "/>
+            </Appbar.Header>
+      
+        <PureChart data={sampleData} type='line' />
+      
+            <Button block success
+                style={styles.btnByRegister}
+                onPress={()=>{this.props.navigation.navigate('tradingtrans')}}
+                >
+                  <Text>Trading Transaction</Text>
+                </Button>
+            </View>
+          )
+        } else {
+          return(
+            <View><Text>a</Text></View>
+          )
+        }
+    
   }
 }
 

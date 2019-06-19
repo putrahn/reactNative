@@ -31,6 +31,7 @@ export default class ListData extends Component <Props>{
     super();
     this.state = {
       data: [],
+      amount:null,
       message: '',
     }
   }
@@ -42,55 +43,54 @@ async componentDidMount() {
   console.log("cif "+cif)
   axios.get(`http://192.168.1.38:8090/accounts/${cif}`)
   .then((results) => {
-    // alert(JSON.stringify(results.data.response_code))
     const response = results.data
     this.setState({data:response.data})
-    console.log(JSON.stringify(response));
-    // if(response.response_code == "20") {
-    //     console.log("dapet");
-    // } else {
-    //   alert(response.message);
-    // }
   }).catch(error => {
     alert(error);
   })
-
+  axios.get(`http://192.168.1.38:8090/tradings/${cif}/balance`)
+  .then((results) => {
+    console.log(results.data.data)
+    const response = results.data
+    this.setState({amount:results.data.data})
+  }).catch(error => {
+    alert(error);
+  })
 }
 
-
+_amount(){
+  if (this.state.amount){
+    
+  return(<Text note>${this.state.amount}</Text>)
+  }
+}
 
     render() {
       let dataArray = []
       let data = this.state.data;
-      // for(let i = 0; i < data.length; i++){
-      //   dataArray.push({
-      //     // title: data[i].customerNumber.firstName,
-      //     title:"Your Account",
-      //     content: 
-      //       "Account Number : "+data[i].accountNumber
-      //       +"\nCustomer Number : "+data[i].customerNumber.customerNumber
-      //       +"\nNIK : "+data[i].customerNumber.nik
-      //       +"\nFirst Name : "+data[i].customerNumber.firstName
-      //       +"\nLast Name : "+data[i].customerNumber.lastName
-      //       +"\nBirth Date : "+data[i].customerNumber.birthDate
-      //       +"\nAmount : Rp. "+data[i].balance
-      //   },)
-      // }
-  
+
+      if (this.state.amount){
         return (
-            <ListItem>
-                <TouchableOpacity onPress={() => {
-                    this.props.navigation.navigate('DetailAccount', this.props.data);
-                }}>
-                    <View style={{ flex: 1, flexDirection: "column" }}>
-                        <Text>{this.props.data.accountNumber}</Text>
-                        <Text note >Rp {this.props.data.balance}</Text>
-                    </View>
-                </TouchableOpacity>
-                <Body></Body>
-            </ListItem>
-          
+          <ListItem>
+              <TouchableOpacity onPress={() => {
+                  this.props.navigation.navigate('DetailAccount', this.props.data);
+              }}>
+                  <View style={{ flex: 1, flexDirection: "column" }}>
+                      <Text>{this.props.data.accountNumber}</Text>
+                      <Text note >Rp {this.props.data.balance}</Text>
+
+                      <Text note>$ {this.state.amount}</Text>
+                  </View>
+              </TouchableOpacity>
+              <Body></Body>
+          </ListItem> 
+      )
+        }return(
+          <View>
+          <Text></Text></View>
         )
+        
+        
       }
 }
 

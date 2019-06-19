@@ -42,14 +42,14 @@ export default class Register extends Component<Props> {
     _registerApi= async() => {
 
       if(
-        !this.state.stateEmail &&
-        !this.state.statePassword &&
-        !this.state.stateFirstname &&
-        !this.state.stateLastname &&
-        !this.state.stateNIK &&
-        !this.state.stateMom &&
-        !this.state.stateBirthdate &&
-        !this.state.stateGender ){
+        this.state.stateEmail &&
+        this.state.statePassword &&
+        this.state.stateFirstname &&
+        this.state.stateLastname &&
+        this.state.stateNIK &&
+        this.state.stateMom &&
+        this.state.stateBirthdate &&
+        this.state.stateGender ){
             alert(
                 'Please fill form correctly'
             );

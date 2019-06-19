@@ -70,7 +70,8 @@ _transfer = async() => {
 
                       <TextInput autoFocus={true} mode='outlined' 
                       value={this.state.stateAmount} 
-                      onChangeText={(amount) => this.setState({ stateAmount: amount })} 
+                      onChangeText={(amount) => this.setState({ stateAmount: amount })}
+                      keyboardType='numeric'
                       label='Amount' />
                       <Divider />
 

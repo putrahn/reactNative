@@ -67,7 +67,8 @@ _topUp = async() => {
                       <TextInput autoFocus={true} mode='outlined' 
                       value={this.state.stateAmount} 
                       onChangeText={(amount) => this.setState({ stateAmount: amount })} 
-                      label='Amount' />
+                      label='Amount'
+                      keyboardType='numeric' />
                       <Divider />
 
                       <TextInput autoFocus={true} mode='outlined' 

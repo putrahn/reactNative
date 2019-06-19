@@ -94,6 +94,7 @@ export default class TradingTransaction extends Component<Props> {
             <TextInput style={styles.inputs}
                 placeholder="Amount"
                 underlineColorAndroid='transparent'
+                keyboardType='numeric'
                 onChangeText={(amount) => this.setState({ stateAmount: amount })} value={this.state.amount} />
           </View>
 
