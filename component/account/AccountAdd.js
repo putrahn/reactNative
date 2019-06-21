@@ -26,7 +26,7 @@ _addAcc = async() => {
         customerNumber:this.props.navigation.state.params.cif
       }
     }
-    Axios.post("http://192.168.1.38:8090/account", data)
+    Axios.post("http://192.168.1.2:8090/account", data)
     .then(async(result) => {
       const response = result.data
       console.log(data);

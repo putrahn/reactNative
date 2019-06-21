@@ -8,7 +8,7 @@
 
 import React, { Component } from 'react';
 import { StyleSheet, Text, TextInput, View, Image, TouchableOpacity, Alert} from 'react-native';
-import { Container, Header, Content, Button} from 'native-base';
+import { Container, Header, Content, Button, Body,Left,Right} from 'native-base';
 import {signIn} from '../Auth';
 import Axios from 'axios';
 
@@ -40,7 +40,7 @@ export default class Login extends Component<Props> {
       password: this.state.statePassword
     }
     // this.props.navigation.navigate("Main")
-    Axios.post("http://192.168.1.38:8090/customer/login", data)
+    Axios.post("http://192.168.1.2:8090/customer/login", data)
     .then(async(result) => {
         const response = result.data
         console.log(data);
@@ -62,10 +62,12 @@ export default class Login extends Component<Props> {
     }
   }
     render() {
+      let pic = require( '../assets/dompetku.png')
         return (
+           
           <View style={styles.container}>
-          <Text style={styles.textByUp}>Login With Your</Text>
-          <Text style={styles.textByUp}>Email and Password</Text>
+          <Image source={pic} style={{width: 250, height: 250 }} />
+          <Text style={styles.textByUp}>Login</Text>
           <View style={styles.inputContainer}>
             <TextInput style={styles.inputs}
                 placeholder="Email"
@@ -94,11 +96,19 @@ export default class Login extends Component<Props> {
         </View>
 
         <View>
-        <Text style={styles.textByRegister}>If You Dont Have an Account, Please Sign Up</Text>
-				 <TouchableOpacity onPress={() =>  this.props.navigation.navigate("Register")}><Text style={styles.textByRegister}> Sign Up</Text></TouchableOpacity>
-				</View>
-  
-          
+        <Text style={styles.textByRegister}>Or</Text>
+        </View>
+
+        <View>
+        <Button block success
+        style={styles.btnByRegister}
+        onPress={()=>{this.props.navigation.navigate('Register')}}
+        >
+          <Text style={{fontSize: 16, fontWeight:'bold', color: 'black'}}>Register</Text>
+        </Button>
+        
+      </View>
+
         </View>
       );
     }
@@ -127,8 +137,8 @@ const resizeMode = 'center';
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
     alignItems: 'center',
+    justifyContent:'center',
     backgroundColor: '#dee3ea',
   },
   inputContainer: {
@@ -191,12 +201,7 @@ const styles = StyleSheet.create({
   },
   textByRegister:{
     color:"#011838",
-    fontWeight:'bold',
-    textAlign:'center',
-
-    textShadowColor: 'rgba(0, 0, 0, 0)',
-    textShadowOffset: {width: -1, height: 1},
-    textShadowRadius: 10
+    fontWeight:'bold'
   },
   textByUp:{
     color:"#011838",

@@ -15,7 +15,7 @@ export default class header extends Component {
   }
   render() {
     let pic = {
-      uri: 'https://pbs.twimg.com/profile_images/550642301169463296/Lz8M_0RM_400x400.jpeg'
+      uri: 'https://drive.google.com/file/d/1sN6qAwCdS9G0rPvfJL1I-uqKB8EfLAlc/view?usp=drivesdk'
     };
     return (
       <View style={{ flex: 1 }}>

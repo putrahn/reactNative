@@ -35,7 +35,7 @@ _topUp = async() => {
       amount : this.state.stateAmount,
       description : this.state.stateDescription
     }
-    Axios.post("http://192.168.1.38:8090/transaction/topup", data)
+    Axios.post("http://192.168.1.2:8090/transaction/topup", data)
     .then(async(result) => {
       const response = result.data
       console.log(data);

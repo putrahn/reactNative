@@ -34,22 +34,19 @@ export default class Register extends Component<Props> {
             stateGender:''
         };
     }
-    static navigationOptions = {
-        title: 'Register',
-        header: ''
-    };
+
 
     _registerApi= async() => {
 
       if(
-        this.state.stateEmail &&
-        this.state.statePassword &&
-        this.state.stateFirstname &&
-        this.state.stateLastname &&
-        this.state.stateNIK &&
-        this.state.stateMom &&
-        this.state.stateBirthdate &&
-        this.state.stateGender ){
+        !this.state.stateEmail&&
+        !this.state.statePassword&&
+        !this.state.stateFirstname&&
+        !this.state.stateLastname&&
+        !this.state.stateNIK&&
+        !this.state.stateMom&&
+        !this.state.stateBirthdate&&
+        !this.state.stateGender ){
             alert(
                 'Please fill form correctly'
             );
@@ -65,14 +62,16 @@ export default class Register extends Component<Props> {
       birthDate : this.state.stateBirthdate,
       gender : this.state.stateGender
     } 
-    Axios.post("http://192.168.1.38:8090/customer", data)
+    Axios.post("http://192.168.1.2:8090/customer", data)
     .then(async(result) => {
         const response = result.data
         if(response.response_code == "20") {
+          this.props.navigation.goBack()
           this.props.navigation.navigate("Login")
         } else {
           Alert.alert(response.message);
-          // this.props.navigation.navigate('Login');
+          this.props.navigation.goBack()
+          this.props.navigation.navigate("Login")
         }
       }).catch(error => {
         alert(error);

@@ -7,20 +7,36 @@ import { View,
 ScrollView } from 'react-native';
 import { List, Checkbox, Appbar } from 'react-native-paper';
 
-import {signOut} from '../../Auth';
+import {signOut,getUserData} from '../../Auth';
 import AsyncStorage from '@react-native-community/async-storage';
+import axios from 'axios';
 
 type Props={};
 
 export default class Main extends Component <Props>{
+  constructor() {
+    super();
+    this.state = {
+      data: []
+    }
+  }
+ 
   static navigationOptions = {
     title:'Main Menu',
   }
   cif
-  componentWillMount(){
+ async componentWillMount(){
+  const abc = await getUserData();
     AsyncStorage.getItem('uname',(err,res)=>{
 this.cif=res;
     })
+    axios.get(`http://192.168.1.38:8090/customer/${abc}`)
+  .then((results) => {
+    const response = results.data
+    this.setState({data:response.data})
+  }).catch(error => {
+    alert(error);
+  })
   }
 
   _logout = async() => {
@@ -35,12 +51,11 @@ this.cif=res;
       <View>
         <Appbar.Header>
           <Appbar.Content
-          title="Menu"
-          subtitle="Do Some Transaction Here" />
+          title="Menu"/>
+          <Text style={{fontSize:16, color:'white'}}>Hello {this.state.data.firstName}</Text>
           <Appbar.Action icon='exit-to-app'  onPress={this._logout} 
           subtitle="Exit"/>
         </Appbar.Header>
-
         <List.Section title="Account">
         <List.Accordion
           title="Account"

@@ -69,7 +69,7 @@ export default class TradingTransaction extends Component<Props> {
 
     console.log(data)
 
-    axios.post("http://192.168.1.38:8090/trading", data)
+    axios.post("http://192.168.1.2:8090/trading", data)
     .then(async(result) => {
         const response = result.data
         if(response.response_code == "20") {
@@ -89,10 +89,10 @@ export default class TradingTransaction extends Component<Props> {
           
           <Text style={styles.textByUp}>Transaction</Text>
           <View style={styles.container}>
-
           <View style={styles.inputContainer}>
+          <Text>Your Amount</Text>
             <TextInput style={styles.inputs}
-                placeholder="Amount"
+                placeholder="USD"
                 underlineColorAndroid='transparent'
                 keyboardType='numeric'
                 onChangeText={(amount) => this.setState({ stateAmount: amount })} value={this.state.amount} />
@@ -186,27 +186,6 @@ const styles = StyleSheet.create({
 
     elevation: 5,
   },
-  inputs:{
-    height:45,
-    marginLeft:16,
-    borderBottomColor: '#FFFFFF',
-    flex:1,
-  },
-  inputIcon:{
-    width:30,
-    height:30,
-    marginRight:15,
-    justifyContent: 'center'
-  },
-  buttonContainer: {
-    height:45,
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-    width:300,
-    borderRadius:30,
-    backgroundColor:'transparent'
-  },
   btnByRegister: {
     width:180,
     backgroundColor:'#3dd130',
@@ -214,51 +193,11 @@ const styles = StyleSheet.create({
       marginVertical: 10,
       paddingVertical: 13
   },
-  loginButton: {
-    backgroundColor: "#00b5ec",
-
-    shadowColor: "#808080",
-    shadowOffset: {
-      width: 0,
-      height: 9,
-    },
-    shadowOpacity: 0.50,
-    shadowRadius: 12.35,
-
-    elevation: 19,
-  },
-  loginText: {
-    color: 'white',
-  },
-  bgImage:{
-    flex: 1,
-    resizeMode:'cover',
-    position: 'absolute',
-    width: '100%',
-    height: '100%',
-    justifyContent: 'center',
-  },
-  btnText:{
-    color:"white",
-    fontWeight:'bold',
-    textShadowColor: 'rgba(0, 0, 0, 0.75)',
-    textShadowOffset: {width: -1, height: 1},
-    textShadowRadius: 10
-  },
   textByUp:{
     color:"#011838",
     fontWeight:'bold',
     textAlign:'center',
     fontSize: 25,
-
-    textShadowColor: 'rgba(0, 0, 0, 0)',
-    textShadowOffset: {width: -1, height: 1},
-    textShadowRadius: 10
-  },
-  textByRegister:{
-    color:"#011838",
-    fontWeight:'bold',
-    textAlign:'center',
 
     textShadowColor: 'rgba(0, 0, 0, 0)',
     textShadowOffset: {width: -1, height: 1},

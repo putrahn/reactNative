@@ -53,7 +53,7 @@ _registerWallet = async() => {
       accountNumber:this.state.stateName}
   }
   console.log(data);
-  Axios.post("http://192.168.1.38:8090/walletaccount", data)
+  Axios.post("http://192.168.1.2:8090/walletaccount", data)
   .then(async(result) => {
     const response = result.data
     console.log(data);

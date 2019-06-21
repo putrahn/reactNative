@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { View, StyleSheet, Image, ScrollView, Dimensions} from 'react-native';
 import { List, Checkbox, Appbar } from 'react-native-paper';
-import { Container, Header,Title, Content,Button, Card, CardItem, Text, Body } from 'native-base';
+import { Container, Header,Title, Content,Button, Card, CardItem, Text, Body, Left, Right, Spinner } from 'native-base';
 import PureChart from 'react-native-pure-chart';
 import Axios from 'axios';
 
@@ -10,6 +10,7 @@ export default class TradingView extends Component <Props>{
     super();
     this.state = {
       data: [],
+      hasil: [],
       message: '',
     }
   }
@@ -18,18 +19,17 @@ export default class TradingView extends Component <Props>{
 };
 
   async componentDidMount() { 
-    Axios.get(`http://192.168.1.38:8090/exchanges`)
+    Axios.get(`http://192.168.1.2:8090/exchanges`)
     .then((results) => {
       const response = results.data
       this.setState({data:response.data})
-      console.log(JSON.stringify(response));
     }).catch(error => {
       alert(error);
     })
   }
 
+
   _dataBuy(){
-    console.log('fghjk');
     let newDate = '';
     let dataBuy = [];
     console.log(this.state.data)
@@ -54,12 +54,16 @@ export default class TradingView extends Component <Props>{
   }
 render() {
 
-  console.log()
-  console.log(this._dataBuy());
-  console.log(this._dataSell());
+  let data = this.state.data;
+  for (let i = 0; i< data.length; i++){
+    if (i == data.length - 1){
+      // this.setState({hasil: data})
+      console.log('looping'+JSON.stringify(data[i]))
+      console.log('state'+JSON.stringify(this.state.hasil))
+    }
+  }
 
-
-  
+  console.log('state'+JSON.stringify(this.state.hasil))
   let sampleData =
         [
           {
@@ -76,25 +80,33 @@ render() {
 
         if(this.state.data.length > 0){
           return (
-            <View>
+          <Container>
+          
             <Appbar.Header>
                 <Appbar.Content title="Trading" 
                 subtitle=" "/>
             </Appbar.Header>
-      
+            <Content>
+        <Text style={{fontSize:16, fontWeight:'bold'}}>    Exchange Chart</Text>
+
         <PureChart data={sampleData} type='line' />
-      
             <Button block success
                 style={styles.btnByRegister}
                 onPress={()=>{this.props.navigation.navigate('tradingtrans')}}
                 >
                   <Text>Trading Transaction</Text>
                 </Button>
-            </View>
+                </Content>
+            </Container>
           )
         } else {
           return(
-            <View><Text>a</Text></View>
+            <Container>
+        <Header />
+        <Content>
+          <Spinner color='red' />
+        </Content>
+      </Container>
           )
         }
     

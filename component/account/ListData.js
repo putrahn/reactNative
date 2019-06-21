@@ -41,14 +41,14 @@ export default class ListData extends Component <Props>{
 async componentDidMount() {
   const cif = await getUserData();
   console.log("cif "+cif)
-  axios.get(`http://192.168.1.38:8090/accounts/${cif}`)
+  axios.get(`http://192.168.1.2:8090/accounts/${cif}`)
   .then((results) => {
     const response = results.data
     this.setState({data:response.data})
   }).catch(error => {
     alert(error);
   })
-  axios.get(`http://192.168.1.38:8090/tradings/${cif}/balance`)
+  axios.get(`http://192.168.1.2:8090/tradings/${cif}/balance`)
   .then((results) => {
     console.log(results.data.data)
     const response = results.data
@@ -86,8 +86,19 @@ _amount(){
           </ListItem> 
       )
         }return(
-          <View>
-          <Text></Text></View>
+          <ListItem>
+              <TouchableOpacity onPress={() => {
+                  this.props.navigation.navigate('DetailAccount', this.props.data);
+              }}>
+                  <View style={{ flex: 1, flexDirection: "column" }}>
+                      <Text>{this.props.data.accountNumber}</Text>
+                      <Text note >Rp {this.props.data.balance}</Text>
+
+                      <Text note>$ {this.state.amount}</Text>
+                  </View>
+              </TouchableOpacity>
+              <Body></Body>
+          </ListItem> 
         )
         
         

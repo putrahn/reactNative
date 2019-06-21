@@ -43,6 +43,7 @@ import WalletView from './component/wallet/WalletView';
 
 import TradingView from './component/trading/TradingView';
 import TradingTransaction from './component/trading/TradingTransaction';
+import Outstanding from './component/trading/Outstanding';
 
 const tabBarIcon = name => ({ tintColor }) => (
   <MaterialIcons
@@ -69,7 +70,10 @@ const TabBottom = createBottomTabNavigator({
 });
 
 const StackTransaction = createStackNavigator({
-  Main : {screen: TabBottom},
+  Main : {screen: TabBottom,
+    navigationOptions: {
+      header:null
+    }},
   tradingtrans : {screen: TradingTransaction},
   trading : {screen: TradingView},
   transfer:{screen: TransactionTransfer},
@@ -93,7 +97,10 @@ const drawerNavigator = createDrawerNavigator({
 
 const RootSwitch = createSwitchNavigator({
   Login :{screen: Login},
-  Register : {screen : Register},
+  Register : {screen : Register,
+    navigationOptions: {
+    title:'Register'
+  }},
   Main : {screen: drawerNavigator}
 })
 
